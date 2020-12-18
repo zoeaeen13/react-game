@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { calculateWinner } from "../../utills";
-import { StepButton, Board, GameWrapper } from "../../components/Tictactoe";
+import {
+  StepButton,
+  Board,
+  GameWrapper,
+  ResultWrapper,
+} from "../../components/Tictactoe";
 
 function Game() {
-  const rowNum = 3;
+  const rowNum = 3; // 3*3
   const [records, setRecords] = useState([
     {
       squares: Array(rowNum * rowNum).fill(null),
@@ -11,7 +16,6 @@ function Game() {
       col: null,
     },
   ]);
-
   const [stepNumber, setStepNumber] = useState(0);
   const [player, setPlayer] = useState(true);
   const squares = records[stepNumber].squares;
@@ -19,14 +23,13 @@ function Game() {
 
   let status;
   if (winner) {
-    status = "獲勝者:" + winner;
+    status = "Winnder: " + winner;
   } else {
-    status = "Next player:" + (player ? "O" : "X");
+    status = "Next player: " + (player ? "O" : "X");
   }
 
   const handleSquare = (index) => {
     if (winner || squares[index]) return;
-
     const currentHistory = records.slice(0, stepNumber + 1);
     const currentSquares = currentHistory[currentHistory.length - 1].squares;
     const newSquare = currentSquares.slice();
@@ -53,8 +56,8 @@ function Game() {
       <div>
         <Board num={rowNum} squares={squares} handleSquare={handleSquare} />
       </div>
-      <div>
-        <div>{status}</div>
+      <ResultWrapper>
+        <h4>{status}</h4>
         <ol>
           {records.map((record, index) => (
             <StepButton
@@ -66,7 +69,7 @@ function Game() {
             />
           ))}
         </ol>
-      </div>
+      </ResultWrapper>
     </GameWrapper>
   );
 }

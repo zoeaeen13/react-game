@@ -7,17 +7,18 @@ const SquareWrapper = styled.button`
   float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 50px;
+  height: 50px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 50px;
+  color: ${(props) => (props.children === "O" ? "red" : "#1A1AF7")};
 
   &:focus {
     outline: none;
-    background: #ddd;
+    background: #fafafa;
   }
 `;
 
@@ -26,7 +27,7 @@ const StepButtonWrapper = styled.button`
   border: none;
   border-radius: 4px;
   padding: 5px 8px;
-  background: ${(props) => (props.isCurrent ? "gold" : "#EEEEEE")};
+  background: ${(props) => (props.isCurrent ? "gold" : "#e5d8b1")};
 
   &:focus {
     outline: none;
@@ -38,6 +39,7 @@ const Square = ({ index, value, handleClick }) => {
   const handleClickSquare = () => {
     handleClick(index);
   };
+
   return (
     <SquareWrapper current={false} onClick={handleClickSquare}>
       {value}
@@ -45,16 +47,24 @@ const Square = ({ index, value, handleClick }) => {
   );
 };
 
+export const ResultWrapper = styled.div`
+  margin: 0 30px;
+
+  h4 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+`;
+
 export const GameWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  align-items: center;
 `;
 
 export const StepButton = ({ isCurrent, index, handleStepNum, record }) => {
-  const children =
-    "Go to move " +
-    (index ? `${index} (${record.row}, ${record.col})` : "game start");
-
+  const children = index
+    ? `Go to move ${index} (${record.row}, ${record.col})`
+    : "Start game";
   const handleClickStep = () => {
     handleStepNum(index);
   };
