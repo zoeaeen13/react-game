@@ -1,20 +1,20 @@
-import "./App.css";
 import { useState } from "react";
-import { calculateWinner } from "./Methods";
-import { RenderStepButton, Board } from "./Components";
+import { calculateWinner } from "../../utills";
+import { StepButton, Board, GameWrapper } from "../../components/Tictactoe";
 
-export default function Game() {
+function Game() {
   const rowNum = 3;
-  const [history, setHistory] = useState([
+  const [records, setRecords] = useState([
     {
       squares: Array(rowNum * rowNum).fill(null),
       row: null,
       col: null,
     },
   ]);
+
   const [stepNumber, setStepNumber] = useState(0);
   const [player, setPlayer] = useState(true);
-  const squares = history[stepNumber].squares;
+  const squares = records[stepNumber].squares;
   const winner = calculateWinner(squares);
 
   let status;
@@ -24,14 +24,14 @@ export default function Game() {
     status = "Next player:" + (player ? "O" : "X");
   }
 
-  function handleSquare(index) {
+  const handleSquare = (index) => {
     if (winner || squares[index]) return;
 
-    const currentHistory = history.slice(0, stepNumber + 1);
+    const currentHistory = records.slice(0, stepNumber + 1);
     const currentSquares = currentHistory[currentHistory.length - 1].squares;
     const newSquare = currentSquares.slice();
     newSquare[index] = player ? "O" : "X";
-    setHistory([
+    setRecords([
       ...currentHistory,
       {
         squares: newSquare,
@@ -41,32 +41,34 @@ export default function Game() {
     ]);
     setPlayer(!player);
     setStepNumber(currentHistory.length);
-  }
+  };
 
-  function jumpToStep(index) {
+  const handleStepNum = (index) => {
     setStepNumber(index);
     setPlayer(!(index % 2) ? true : false);
-  }
+  };
 
   return (
-    <div className="game">
-      <div className="game-board">
+    <GameWrapper>
+      <div>
         <Board num={rowNum} squares={squares} handleSquare={handleSquare} />
       </div>
-      <div className="game-info">
+      <div>
         <div>{status}</div>
         <ol>
-          {history.map((data, index) => (
-            <RenderStepButton
+          {records.map((record, index) => (
+            <StepButton
               key={index}
               index={index}
               isCurrent={index === stepNumber}
-              data={data}
-              onClick={jumpToStep}
+              record={record}
+              handleStepNum={handleStepNum}
             />
           ))}
         </ol>
       </div>
-    </div>
+    </GameWrapper>
   );
 }
+
+export default Game;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-const Square = styled.button`
+const SquareWrapper = styled.button`
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -20,7 +21,7 @@ const Square = styled.button`
   }
 `;
 
-const StepButton = styled.button`
+const StepButtonWrapper = styled.button`
   margin-bottom: 3px;
   border: none;
   border-radius: 4px;
@@ -33,34 +34,39 @@ const StepButton = styled.button`
   }
 `;
 
-function RenderSquare({ index, value, onClick }) {
+const Square = ({ index, value, handleClick }) => {
   const handleClickSquare = () => {
-    onClick(index);
+    handleClick(index);
   };
   return (
-    <Square current={false} onClick={handleClickSquare}>
+    <SquareWrapper current={false} onClick={handleClickSquare}>
       {value}
-    </Square>
+    </SquareWrapper>
   );
-}
+};
 
-function RenderRow() {}
+export const GameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
-export function RenderStepButton({ isCurrent, index, onClick, data }) {
-  const handleClickStep = () => {
-    onClick(index);
-  };
+export const StepButton = ({ isCurrent, index, handleStepNum, record }) => {
   const children =
     "Go to move " +
-    (index ? `${index} (${data.row}, ${data.col})` : "game start");
+    (index ? `${index} (${record.row}, ${record.col})` : "game start");
+
+  const handleClickStep = () => {
+    handleStepNum(index);
+  };
+
   return (
     <li>
-      <StepButton isCurrent={isCurrent} onClick={handleClickStep}>
+      <StepButtonWrapper isCurrent={isCurrent} onClick={handleClickStep}>
         {children}
-      </StepButton>
+      </StepButtonWrapper>
     </li>
   );
-}
+};
 
 export function Board({ num, squares, handleSquare }) {
   let board = [];
@@ -69,17 +75,30 @@ export function Board({ num, squares, handleSquare }) {
     for (let j = 0; j < num; j += 1) {
       const index = j + num * i;
       boardRow.push(
-        <RenderSquare
-          onClick={handleSquare}
+        <Square
+          handleClick={handleSquare}
           key={index}
           index={index}
           value={squares[index]}
         />
       );
     }
-    board.push(<div className="board-row">{boardRow}</div>);
+    board.push(<div>{boardRow}</div>);
   }
-  console.log("board", board);
 
   return board;
 }
+
+Square.propTypes = {
+  index: PropTypes.number,
+  value: PropTypes.string,
+  handleClick: PropTypes.func,
+};
+
+StepButton.propTypes = {
+  isCurrent: PropTypes.bool,
+  index: PropTypes.number,
+  value: PropTypes.string,
+  handleStepNum: PropTypes.func,
+  record: PropTypes.object,
+};
