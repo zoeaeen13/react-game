@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 const Square = styled.button`
   background: #fff;
@@ -14,59 +13,73 @@ const Square = styled.button`
   padding: 0;
   text-align: center;
   width: 34px;
-  
+
   &:focus {
     outline: none;
     background: #ddd;
   }
-`
+`;
 
 const StepButton = styled.button`
   margin-bottom: 3px;
   border: none;
   border-radius: 4px;
   padding: 5px 8px;
-  background: ${(props) => props.current? 'gold': '#EEEEEE'};
-`
+  background: ${(props) => (props.isCurrent ? "gold" : "#EEEEEE")};
 
-function RenderSquare({index, value, onClick}) {
-  const handleClickSquare = () => {
-    onClick(index)
+  &:focus {
+    outline: none;
+    background: gold;
   }
+`;
+
+function RenderSquare({ index, value, onClick }) {
+  const handleClickSquare = () => {
+    onClick(index);
+  };
   return (
-    <Square current={false} onClick={handleClickSquare}>{value}</Square>
-  )
+    <Square current={false} onClick={handleClickSquare}>
+      {value}
+    </Square>
+  );
 }
 
-export function RenderStepButton({index, onClick}) {
+function RenderRow() {}
+
+export function RenderStepButton({ isCurrent, index, onClick, data }) {
   const handleClickStep = () => {
     onClick(index);
-  }
-  const children = 'Go to move ' + (index? index :'game start');
-
+  };
+  const children =
+    "Go to move " +
+    (index ? `${index} (${data.row}, ${data.col})` : "game start");
   return (
-    <li><StepButton onClick={handleClickStep}>{children}</StepButton></li>
-  )
+    <li>
+      <StepButton isCurrent={isCurrent} onClick={handleClickStep}>
+        {children}
+      </StepButton>
+    </li>
+  );
 }
 
-export function Board({pieceList, handleSquare}) {
-  return (
-    <div>
-        <div className="board-row">
-          <RenderSquare onClick={handleSquare} index={0} value={pieceList[0]}/>
-          <RenderSquare onClick={handleSquare} index={1} value={pieceList[1]}/>
-          <RenderSquare onClick={handleSquare} index={2} value={pieceList[2]}/>
-        </div>
-        <div className="board-row">
-          <RenderSquare onClick={handleSquare} index={3} value={pieceList[3]}/>
-          <RenderSquare onClick={handleSquare} index={4} value={pieceList[4]}/>
-          <RenderSquare onClick={handleSquare} index={5} value={pieceList[5]}/>
-        </div>
-        <div className="board-row">
-          <RenderSquare onClick={handleSquare} index={6} value={pieceList[6]}/>
-          <RenderSquare onClick={handleSquare} index={7} value={pieceList[7]}/>
-          <RenderSquare onClick={handleSquare} index={8} value={pieceList[8]}/>
-        </div>
-      </div>
-  )
+export function Board({ num, squares, handleSquare }) {
+  let board = [];
+  for (let i = 0; i < num; i += 1) {
+    let boardRow = [];
+    for (let j = 0; j < num; j += 1) {
+      const index = j + num * i;
+      boardRow.push(
+        <RenderSquare
+          onClick={handleSquare}
+          key={index}
+          index={index}
+          value={squares[index]}
+        />
+      );
+    }
+    board.push(<div className="board-row">{boardRow}</div>);
+  }
+  console.log("board", board);
+
+  return board;
 }
