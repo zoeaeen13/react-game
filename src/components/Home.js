@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
+import leftArrow from "../images/left-arrow.svg";
+import rightArrow from "../images/right-arrow.svg";
+import { Link } from "react-router-dom";
+import { MEDIA_QUERY_LG } from "../constants/style";
 export const AppWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -11,15 +14,18 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   aligh-items: center;
   position: relative;
-  margin: 20vh auto;
-  border-bottom: 1px solid #d1d1d1;
+  margin: 10vh auto;
   border-top: 0.5rem solid #2e2e2e;
   padding: 10px;
-  width: 80vw;
-  height: 60vh;
+  width: 85vw;
+
+  ${MEDIA_QUERY_LG} {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
 
   &:before {
-    content: "DESIGN BY MENG-HUA";
+    content: "DESIGNED BY MENG-HUA";
     font-weight: bold;
     color: #2e2e2e;
     font-size: 16px;
@@ -33,11 +39,20 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${MEDIA_QUERY_LG} {
+    width: 100%;
+    justify-content: flex-start;
+  }
 `;
 const GameIntroWrappre = styled.div`
   padding: 10px;
   width: 50%;
   color: #2e2e2e;
+
+  ${MEDIA_QUERY_LG} {
+    width: 90%;
+  }
 
   h1 {
     margin: 10px 0;
@@ -57,20 +72,17 @@ const GameIntroWrappre = styled.div`
   }
 `;
 
-export const ArrowWrapper = styled.div`
+export const ArrowWrapper = styled(Link)`
   margin: 30px;
   width: 50px;
   height: 50px;
-  background: orange;
-
-  img {
-    width: 100%;
-    cursor: pointer;
-    transition: 0.2s all ease-in;
-
-    &:hover {
-      transform: scale(1.2);
-    }
+  transition: 0.2s all ease-in;
+  cursor: pointer;
+  background-image: url("${(props) =>
+    props.direction === "right" ? rightArrow : leftArrow}");
+  background-size: cover;
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
@@ -85,7 +97,7 @@ export function GameIntro({ num, name, desc }) {
 }
 
 GameIntro.propTypes = {
-  num: PropTypes.string,
+  num: PropTypes.number,
   name: PropTypes.string,
   desc: PropTypes.string,
 };

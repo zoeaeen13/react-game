@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { calculateWinner } from "../../utills";
+import { calculateTictactoe } from "../../utills";
 import {
   StepButton,
   Board,
-  GameWrapper,
+  TictactoeWrapper,
   ResultWrapper,
 } from "../../components/Tictactoe";
+import { BOARD_SIZE } from "../../constants/style";
 
 function Game() {
   const rowNum = 3; // 3*3
@@ -19,11 +20,13 @@ function Game() {
   const [stepNumber, setStepNumber] = useState(0);
   const [player, setPlayer] = useState(true);
   const squares = records[stepNumber].squares;
-  const winner = calculateWinner(squares);
+  const winner = calculateTictactoe(squares);
 
-  let status;
+  let status = "";
   if (winner) {
     status = "Winnder: " + winner;
+  } else if (!winner && stepNumber === rowNum * rowNum) {
+    status = "Equal!";
   } else {
     status = "Next player: " + (player ? "O" : "X");
   }
@@ -52,9 +55,14 @@ function Game() {
   };
 
   return (
-    <GameWrapper>
+    <TictactoeWrapper>
       <div>
-        <Board num={rowNum} squares={squares} handleSquare={handleSquare} />
+        <Board
+          size={BOARD_SIZE.LARGE}
+          num={rowNum}
+          squares={squares}
+          handleSquare={handleSquare}
+        />
       </div>
       <ResultWrapper>
         <h4>{status}</h4>
@@ -70,7 +78,7 @@ function Game() {
           ))}
         </ol>
       </ResultWrapper>
-    </GameWrapper>
+    </TictactoeWrapper>
   );
 }
 

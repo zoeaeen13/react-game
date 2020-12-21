@@ -1,8 +1,8 @@
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Tictactoe from "../pages/Tictactoe";
+import Gobang from "../pages/Gobang";
 import { useLocation } from "react-router-dom";
-import leftArrow from "../images/left-arrow.svg";
-import rightArrow from "../images/right-arrow.svg";
+import gameList from "../constants/gameType";
 import {
   AppWrapper,
   ArrowWrapper,
@@ -11,41 +11,50 @@ import {
   GameIntro,
 } from "./Home";
 
-const fakeData = {
-  name: "Tic-Tac-Toe",
-  num: "1",
-  desc: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
-};
-
 function App() {
+  let location = useLocation();
+  let recentGame;
+  switch (location.pathname) {
+    case "/2":
+      recentGame = gameList[1];
+      break;
+    default:
+      recentGame = gameList[0];
+      break;
+  }
+
   return (
     <Router>
       <AppWrapper>
-        <ArrowWrapper>
-          <img alt="left" src={leftArrow} />
-        </ArrowWrapper>
+        <ArrowWrapper
+          direction={"left"}
+          to={location.pathname === "/2" && "/"}
+        />
         <Wrapper>
           <Container>
-            <Tictactoe />
+            <Switch>
+              <Route exact path="/">
+                <Tictactoe />
+              </Route>
+              <Route exact path="/1">
+                <Tictactoe />
+              </Route>
+              <Route path="/2">
+                <Gobang />
+              </Route>
+            </Switch>
           </Container>
           <GameIntro
-            num={fakeData.num}
-            name={fakeData.name}
-            desc={fakeData.desc}
+            num={recentGame.num}
+            name={recentGame.name}
+            desc={recentGame.desc}
           />
         </Wrapper>
-        <ArrowWrapper>
-          <img alt="left" src={rightArrow} />
-        </ArrowWrapper>
+        <ArrowWrapper
+          direction={"right"}
+          to={location.pathname !== "/2" && "/2"}
+        />
       </AppWrapper>
-      {/* <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/tictactoe">
-            <Tictactoe />
-          </Route>
-        </Switch> */}
     </Router>
   );
 }

@@ -8,14 +8,13 @@ const SquareWrapper = styled.button`
   font-size: 24px;
   font-weight: bold;
   line-height: 50px;
-  height: 50px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 50px;
   color: ${(props) => (props.children === "O" ? "red" : "#1A1AF7")};
-
+  width: ${(props) => props.size};
+  height: ${(props) => props.size};
   &:focus {
     outline: none;
     background: #fafafa;
@@ -35,13 +34,13 @@ const StepButtonWrapper = styled.button`
   }
 `;
 
-const Square = ({ index, value, handleClick }) => {
+const Square = ({ size, index, value, handleClick }) => {
   const handleClickSquare = () => {
     handleClick(index);
   };
 
   return (
-    <SquareWrapper current={false} onClick={handleClickSquare}>
+    <SquareWrapper size={size} current={false} onClick={handleClickSquare}>
       {value}
     </SquareWrapper>
   );
@@ -56,7 +55,7 @@ export const ResultWrapper = styled.div`
   }
 `;
 
-export const GameWrapper = styled.div`
+export const TictactoeWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -78,7 +77,7 @@ export const StepButton = ({ isCurrent, index, handleStepNum, record }) => {
   );
 };
 
-export function Board({ num, squares, handleSquare }) {
+export function Board({ size, num, squares, handleSquare }) {
   let board = [];
   for (let i = 0; i < num; i += 1) {
     let boardRow = [];
@@ -86,6 +85,7 @@ export function Board({ num, squares, handleSquare }) {
       const index = j + num * i;
       boardRow.push(
         <Square
+          size={size}
           handleClick={handleSquare}
           key={index}
           index={index}
@@ -100,6 +100,7 @@ export function Board({ num, squares, handleSquare }) {
 }
 
 Square.propTypes = {
+  size: PropTypes.string,
   index: PropTypes.number,
   value: PropTypes.string,
   handleClick: PropTypes.func,
