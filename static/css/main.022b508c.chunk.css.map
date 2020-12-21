@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/index.css"],"names":[],"mappings":"AAAA,YAEE,QAAS,CACT,SAAU,CACV,kBAAmB,CACnB,8BACF","file":"main.022b508c.chunk.css","sourcesContent":["body *, body {\n  /* outline: solid 1px red; */\n  margin: 0;\n  padding: 0;\n  background: #F2EBD7;\n  font-family: 'Rubik', sans-serif;\n}"]}
