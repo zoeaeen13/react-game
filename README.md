@@ -1,5 +1,5 @@
 ## React 入門：井字遊戲及五子棋
-一個串接 Lidemy API 的部落格系統，註冊用戶可以檢視、上傳、編輯及刪除文章。
+以 React 來製作經典的策略棋盤遊戲，易於學習及上手，從簡單的 3x3 井字遊戲到有趣的 19x19 五子棋
 - [Demo](https://zoeaeen13.github.io/react-game/#/)
 
 ![](https://i.imgur.com/ruq1D74.gif)
