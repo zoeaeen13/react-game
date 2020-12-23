@@ -36,9 +36,6 @@ function App() {
               <Route exact path="/">
                 <Tictactoe />
               </Route>
-              <Route exact path="/1">
-                <Tictactoe />
-              </Route>
               <Route path="/2">
                 <Gobang />
               </Route>

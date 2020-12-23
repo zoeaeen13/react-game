@@ -62,7 +62,7 @@ export const TictactoeWrapper = styled.div`
 
 export const StepButton = ({ isCurrent, index, handleStepNum, record }) => {
   const children = index
-    ? `Go to move ${index} (${record.row}, ${record.col})`
+    ? `Go to move ${index} (${record.col}, ${record.row})`
     : "Start game";
   const handleClickStep = () => {
     handleStepNum(index);

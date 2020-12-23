@@ -9,7 +9,7 @@ import {
 import { BOARD_SIZE } from "../../constants/style";
 
 function Game() {
-  const rowNum = 3; // 3*3
+  const rowNum = 3; // 3*3 board
   const [records, setRecords] = useState([
     {
       squares: Array(rowNum * rowNum).fill(null),
