@@ -34,8 +34,8 @@
 ### 使用技術
 - 以 React 搭配 React-router 建立棋盤遊戲
 - 以 JSX 語法撰寫元件
-- 支援 RWD，使用 styled-component、SASS 進行排版
-- 使用 funciton component 及 useState hook 管理狀態
+- 支援 RWD，使用 styled-component 以 Sass 進行排版
+- 使用 funciton component 及 useState 管理狀態
 - 導入 Prettier 讓程式碼格式統一
 
 
